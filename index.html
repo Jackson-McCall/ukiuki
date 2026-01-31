@@ -5,6 +5,35 @@
     <title>Button Page</title>
 </head>
 <body>
-    <button onclick="alert('Button clicked!')">Click me</button>
+    <button onclick="hitEndpoint()">Click me</button>
+
+    <h2> Scraped Data:</h2>
+    <pre id="scrapeResult"></pre> <!-- placeholder for scraped data-->
+
+    <script>
+        function hitEndpoint(){
+            fetch('http://127.0.0.1:5000/api/scrape')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                alert('GET Request completed!');
+                if(data.status === 'success'){
+                    const formatted = `
+                    Title: ${data.data.title}
+                    Text: ${data.data.text}
+                    Link: ${data.data.link}
+                    `;
+                    document.getElementById('scrapeResult').textContent = formatted;
+                } else {
+                    document.getElementById('scrapeResult').textContent = 'Error: ' + data.message;
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('GET Request failed!' + error);
+                document.getElementById('scrapeResult').textContent = 'GET Request failed!' + error;
+            });
+        }
+    </script>
 </body>
 </html>
