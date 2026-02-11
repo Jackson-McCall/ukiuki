@@ -14,7 +14,7 @@ void PingController::healthCheck(const drogon::HttpRequestPtr& req,
 	resp->setStatusCode(drogon::k200OK);
 
 	// Set the body content
-	resp->setBody("Success");
+	resp->setBody("UkiUkiAPI health status = UP");
 
 	// Invoke the callback. This sends the response through the socket 
 	callback(resp);
