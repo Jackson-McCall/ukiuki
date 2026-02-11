@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Button Page</title>
+</head>
+<body>
+    <button onclick="endpointHealthCheck()">Is the UkiUki API healthy? Click me to find out!</button>
+
+    <script>
+        function hitEndpoint(){
+            fetch('http://127.0.0.1:8080/health')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                alert('GET Request completed!');
+            });
+        }
+    </script>
+</body>
+</html>
