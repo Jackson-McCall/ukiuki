@@ -18,15 +18,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON) # Forces it to error if C++20 isn't availabl
 set(CMAKE_CXX_EXTENSIONS OFF)  # Stick to clean, standard C++ (no compiler-specific stuff)     
 
 # =================================
-# CEF Setup
-# =================================
-
-set(CEF_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/cef") # set cef root
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CEF_ROOT}/cmake") # Add CEF modules to search path
-find_package(CEF REQUIRED)
-add_subdirectory(${CEF_ROOT}/libcef_dll libcef_dll_wrapper) # build CEF's wrapper library
-
-# =================================
 # Drogon Setup
 # =================================
 
@@ -40,21 +31,9 @@ find_package(Drogon CONFIG REQUIRED)
 add_executable(UkiUki 
     "main.cpp"   
     "Controllers/PingController.h"
-    "Controllers/PingController.cpp"
- "src/CEFMain.cpp")
+    "Controllers/PingController.cpp")
 
 target_link_libraries(UkiUki 
         PRIVATE 
         Drogon::Drogon
-        libcef_dll_wrapper # CEF's C++ wrapper
-        ${CEF_STANDARD_LIBS} # CEF's platform-specific libs)
 )
-
-# =================================
-# Copy CEF binaries and resources next to my executable
-# =================================
-
-# These macros are defined by find_package(CEF)
-# They copy libcef.dll, resources, etc. to your output directory
-COPY_FILES("UkiUki" "${CEF_BINARY_FILES}" "${CEF_BINARY_DIR}" "$<TARGET_FILE_DIR:UkiUki>")
-COPY_FILES("UkiUki" "${CEF_RESOURCE_FILES}" "${CEF_RESOURCE_DIR}" "$<TARGET_FILE_DIR:UkiUki>")
